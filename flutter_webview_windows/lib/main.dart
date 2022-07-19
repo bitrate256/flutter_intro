@@ -13,7 +13,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(navigatorKey: navigatorKey, home: ExampleBrowser());
+    return MaterialApp(debugShowCheckedModeBanner: false, navigatorKey: navigatorKey, home: ExampleBrowser());
   }
 }
 
@@ -25,7 +25,7 @@ class ExampleBrowser extends StatefulWidget {
 class _ExampleBrowser extends State<ExampleBrowser> {
   final _controller = WebviewController();
   final _textController = TextEditingController();
-  bool _isWebviewSuspended = false;
+  // bool _isWebviewSuspended = false;
 
   @override
   void initState() {
@@ -94,39 +94,40 @@ class _ExampleBrowser extends State<ExampleBrowser> {
         padding: EdgeInsets.all(20),
         child: Column(
           children: [
-            Card(
-              elevation: 0,
-              child: Row(children: [
-                Expanded(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'URL',
-                      contentPadding: EdgeInsets.all(10.0),
-                    ),
-                    textAlignVertical: TextAlignVertical.center,
-                    controller: _textController,
-                    onSubmitted: (val) {
-                      _controller.loadUrl(val);
-                    },
-                  ),
-                ),
-                IconButton(
-                  icon: Icon(Icons.refresh),
-                  splashRadius: 20,
-                  onPressed: () {
-                    _controller.reload();
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.developer_mode),
-                  tooltip: 'Open DevTools',
-                  splashRadius: 20,
-                  onPressed: () {
-                    _controller.openDevTools();
-                  },
-                )
-              ]),
-            ),
+            // Card(
+            //   elevation: 0,
+            //   child:
+              // Row(children: [
+                // Expanded(
+                //   child: TextField(
+                //     decoration: InputDecoration(
+                //       hintText: 'URL',
+                //       contentPadding: EdgeInsets.all(10.0),
+                //     ),
+                //     textAlignVertical: TextAlignVertical.center,
+                //     controller: _textController,
+                //     onSubmitted: (val) {
+                //       _controller.loadUrl(val);
+                //     },
+                //   ),
+                // ),
+                // IconButton(
+                //   icon: Icon(Icons.refresh),
+                //   splashRadius: 20,
+                //   onPressed: () {
+                //     _controller.reload();
+                //   },
+                // ),
+                // IconButton(
+                //   icon: Icon(Icons.developer_mode),
+                //   tooltip: 'Open DevTools',
+                //   splashRadius: 20,
+                //   onPressed: () {
+                //     _controller.openDevTools();
+                //   },
+                // )
+              // ]),
+            // ),
             Expanded(
                 child: Card(
                     color: Colors.transparent,
@@ -159,28 +160,35 @@ class _ExampleBrowser extends State<ExampleBrowser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // floatingActionButton: FloatingActionButton(
+      //   tooltip: _isWebviewSuspended ? 'Resume webview' : 'Suspend webview',
+      //   onPressed: () async {
+      //     if (_isWebviewSuspended) {
+      //       await _controller.resume();
+      //     } else {
+      //       await _controller.suspend();
+      //     }
+      //     setState(() {
+      //       _isWebviewSuspended = !_isWebviewSuspended;
+      //     });
+      //   },
+      //   child: Icon(_isWebviewSuspended ? Icons.play_arrow : Icons.pause),
+      // ),
       floatingActionButton: FloatingActionButton(
-        tooltip: _isWebviewSuspended ? 'Resume webview' : 'Suspend webview',
+        tooltip: '새로고침',
         onPressed: () async {
-          if (_isWebviewSuspended) {
-            await _controller.resume();
-          } else {
-            await _controller.suspend();
-          }
-          setState(() {
-            _isWebviewSuspended = !_isWebviewSuspended;
-          });
+          _controller.reload();
         },
-        child: Icon(_isWebviewSuspended ? Icons.play_arrow : Icons.pause),
+        child: Icon(Icons.refresh),
       ),
-      appBar: AppBar(
-          title: StreamBuilder<String>(
-        stream: _controller.title,
-        builder: (context, snapshot) {
-          return Text(
-              snapshot.hasData ? snapshot.data! : 'WebView (Windows) Example');
-        },
-      )),
+      // appBar: AppBar(
+      //     title: StreamBuilder<String>(
+      //   stream: _controller.title,
+      //   builder: (context, snapshot) {
+      //     return Text(
+      //         snapshot.hasData ? snapshot.data! : 'WebView (Windows) Example');
+      //   },
+      // )),
       body: Center(
         child: compositeView(),
       ),
