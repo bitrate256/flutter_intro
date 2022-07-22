@@ -18,16 +18,51 @@ class MyApp extends StatelessWidget {
 }
 
 /// 홈 페이지
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  List<String> bucketList = ['테스트1','테스트2']; // 전체 버킷리스트 목록
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("버킷 리스트"),
+        title: Text("리스트"),
       ),
-      body: Center(child: Text("버킷 리스트를 작성해 주세요.")),
+      body: bucketList.isEmpty
+          ? Center(child: Text("리스트가 없습니다"))
+          : ListView.builder(
+              itemCount: bucketList.length, // bucketList 개수 만큼 보여주기
+              itemBuilder: (context, index) {
+                String bucket = bucketList[index]; // index에 해당하는 bucket 가져오기
+                return ListTile(
+                  // 버킷 리스트 할 일
+                  title: Text(
+                    bucket,
+                    style: TextStyle(
+                      fontSize: 24,
+                    ),
+                  ),
+                  // 삭제 아이콘 버튼
+                  trailing: IconButton(
+                    icon: Icon(CupertinoIcons.delete),
+                    onPressed: () {
+                      // 삭제 버튼 클릭시
+                      print('$bucket : 삭제하기');
+                    },
+                  ),
+                  onTap: () {
+                    // 아이템 클릭시
+                    print('$bucket : 클릭 됨');
+                  },
+                );
+              },
+            ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
@@ -50,7 +85,7 @@ class CreatePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("버킷리스트 작성"),
+        title: Text("리스트 작성"),
         // 뒤로가기 버튼
         leading: IconButton(
           icon: Icon(CupertinoIcons.chevron_back),
@@ -67,7 +102,7 @@ class CreatePage extends StatelessWidget {
             TextField(
               autofocus: true,
               decoration: InputDecoration(
-                hintText: "하고 싶은 일을 입력하세요",
+                hintText: "내용을 입력하세요",
               ),
             ),
             SizedBox(height: 32),
