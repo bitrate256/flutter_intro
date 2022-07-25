@@ -65,12 +65,17 @@ class _HomePageState extends State<HomePage> {
             ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () {
-          // + 버튼 클릭시 버킷 생성 페이지로 이동
-          Navigator.push(
+        onPressed: () async {
+          // + 버튼 클릭시 버킷 생성 페이지로 이동, 추가 버튼 눌렀을 때 빈값이면 null이 반홤되므로 String은 ? 타입 사용
+          String? job = await Navigator.push( // await : Navigator.push()로 화면을 띄우고 해당 화면이 종료될 때 까지 이 라인에서 기다리도록 만듬. 이후 화면이 종료되면 job 변수에 반환된 파라미터를 할당하고 다음 라인 진행됨
             context,
             MaterialPageRoute(builder: (_) => CreatePage()),
           );
+          if (job != null) {
+            setState(() {
+              bucketList.add(job); // 버킷 리스트에 추가
+            });
+          }
         },
       ),
     );
@@ -86,7 +91,7 @@ class CreatePage extends StatefulWidget {
 }
 
 class _CreatePageState extends State<CreatePage> {
-  // TextField의 값을 가져올 때 사용합니다.
+  // TextField의 값을 가져올 때 사용
   TextEditingController textController = TextEditingController();
 
   // 경고 메세지
@@ -111,7 +116,7 @@ class _CreatePageState extends State<CreatePage> {
           children: [
             // 텍스트 입력창
             TextField(
-              controller: textController, // 연결해 줍니다.
+              controller: textController, // 연결
               autofocus: true,
               decoration: InputDecoration(
                 hintText: "내용을 입력하세요",
@@ -141,6 +146,7 @@ class _CreatePageState extends State<CreatePage> {
                     setState(() {
                       error = null; // 내용이 있는 경우 에러 메세지 숨기기
                     });
+                    Navigator.pop(context, job); // job 변수를 반환하며 화면을 종료
                   }
                   print(job);
                 },
