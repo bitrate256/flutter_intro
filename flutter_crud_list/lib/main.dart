@@ -54,6 +54,10 @@ class _HomePageState extends State<HomePage> {
                     work.job, // 해야할 작업은 work 의 job 속성에 들어 있음
                     style: TextStyle(
                       fontSize: 24,
+                      color: work.isDone ? Colors.grey : Colors.black,
+                      decoration: work.isDone
+                          ? TextDecoration.lineThrough // 텍스트에 취소선 넣기
+                          : TextDecoration.none,
                     ),
                   ),
                   // 삭제 아이콘 버튼
@@ -66,7 +70,9 @@ class _HomePageState extends State<HomePage> {
                   ),
                   onTap: () {
                     // 아이템 클릭시
-                    print('$work : 클릭 됨');
+                    setState(() {
+                      work.isDone = !work.isDone;
+                    });
                   },
                 );
               },
