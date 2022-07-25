@@ -17,6 +17,14 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// 작업 클래스
+class Work {
+  String job; // 할 일
+  bool isDone; // 완료 여부
+
+  Work(this.job, this.isDone); // 생성자
+}
+
 /// 홈 페이지
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -26,7 +34,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<String> bucketList = ['테스트1','테스트2']; // 전체 버킷리스트 목록
+  List<Work> workList = []; // 전체 작업리스트 목록
 
   @override
   Widget build(BuildContext context) {
@@ -34,16 +42,16 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text("리스트"),
       ),
-      body: bucketList.isEmpty
+      body: workList.isEmpty
           ? Center(child: Text("리스트가 없습니다"))
           : ListView.builder(
-              itemCount: bucketList.length, // bucketList 개수 만큼 보여주기
+              itemCount: workList.length, // workList 개수 만큼 보여주기
               itemBuilder: (context, index) {
-                String bucket = bucketList[index]; // index에 해당하는 bucket 가져오기
+                Work work = workList[index]; // index에 해당하는 work 가져오기
                 return ListTile(
                   // 버킷 리스트 할 일
                   title: Text(
-                    bucket,
+                    work.job, // 해야할 작업은 work 의 job 속성에 들어 있음
                     style: TextStyle(
                       fontSize: 24,
                     ),
@@ -53,12 +61,12 @@ class _HomePageState extends State<HomePage> {
                     icon: Icon(CupertinoIcons.delete),
                     onPressed: () {
                       // 삭제 버튼 클릭시
-                      print('$bucket : 삭제하기');
+                      print('$work : 삭제하기');
                     },
                   ),
                   onTap: () {
                     // 아이템 클릭시
-                    print('$bucket : 클릭 됨');
+                    print('$work : 클릭 됨');
                   },
                 );
               },
@@ -73,7 +81,8 @@ class _HomePageState extends State<HomePage> {
           );
           if (job != null) {
             setState(() {
-              bucketList.add(job); // 버킷 리스트에 추가
+              Work newWork = Work(job, false);
+              workList.add(newWork); // 작업 리스트에 추가
             });
           }
         },
