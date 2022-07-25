@@ -65,37 +65,7 @@ class _HomePageState extends State<HomePage> {
                     icon: Icon(CupertinoIcons.delete),
                     onPressed: () {
                       // 삭제 버튼 클릭시
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text("정말로 삭제하시겠습니까?"),
-                            actions: [
-                              // 취소 버튼
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text("취소"),
-                              ),
-                              // 확인 버튼
-                              TextButton(
-                                onPressed: () {
-                                  setState(() {
-                                    // index에 해당하는 항목 삭제
-                                    workList.removeAt(index);
-                                  });
-                                  Navigator.pop(context);
-                                },
-                                child: Text(
-                                  "확인",
-                                  style: TextStyle(color: Colors.pink),
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      );
+                      showDeleteDialog(context, index);
                     },
                   ),
                   onTap: () {
@@ -111,7 +81,8 @@ class _HomePageState extends State<HomePage> {
         child: Icon(Icons.add),
         onPressed: () async {
           // + 버튼 클릭시 버킷 생성 페이지로 이동, 추가 버튼 눌렀을 때 빈값이면 null이 반홤되므로 String은 ? 타입 사용
-          String? job = await Navigator.push( // await : Navigator.push()로 화면을 띄우고 해당 화면이 종료될 때 까지 이 라인에서 기다리도록 만듬. 이후 화면이 종료되면 job 변수에 반환된 파라미터를 할당하고 다음 라인 진행됨
+          String? job = await Navigator.push(
+            // await : Navigator.push()로 화면을 띄우고 해당 화면이 종료될 때 까지 이 라인에서 기다리도록 만듬. 이후 화면이 종료되면 job 변수에 반환된 파라미터를 할당하고 다음 라인 진행됨
             context,
             MaterialPageRoute(builder: (_) => CreatePage()),
           );
@@ -123,6 +94,40 @@ class _HomePageState extends State<HomePage> {
           }
         },
       ),
+    );
+  }
+
+  void showDeleteDialog(BuildContext context, int index) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("정말로 삭제하시겠습니까?"),
+          actions: [
+            // 취소 버튼
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("취소"),
+            ),
+            // 확인 버튼
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  // index에 해당하는 항목 삭제
+                  workList.removeAt(index);
+                });
+                Navigator.pop(context);
+              },
+              child: Text(
+                "확인",
+                style: TextStyle(color: Colors.pink),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
