@@ -26,15 +26,16 @@ class WebViewExampleState extends State<WebViewExample> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false, // 디버그모드 배너 삭제
       home: WillPopScope(
         onWillPop: () => _goBack(context),
         child: Scaffold(
-          appBar: AppBar(
-            title: Text(
-              "웹뷰 테스트_webview",
-              style: TextStyle(fontSize: 28),
-            ),
-          ),
+          // appBar: AppBar(
+          //   title: Text(
+          //     "데모",
+          //     style: TextStyle(fontSize: 28),
+          //   ),
+          // ),
           body: WebView(
             initialUrl: 'https://www.google.com/',
             javascriptMode: JavascriptMode.unrestricted,

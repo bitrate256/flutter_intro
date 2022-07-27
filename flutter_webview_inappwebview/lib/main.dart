@@ -12,6 +12,7 @@ Future main() async {
   }
 
   runApp(MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: new MyApp()
   ));
 }
@@ -33,6 +34,7 @@ class _MyAppState extends State<MyApp> {
       ),
       android: AndroidInAppWebViewOptions(
         useHybridComposition: true,
+
       ),
       ios: IOSInAppWebViewOptions(
         allowsInlineMediaPlayback: true,
@@ -70,35 +72,36 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Official InAppWebView website")),
+        // appBar: AppBar(title: Text("Official InAppWebView website")),
         body: SafeArea(
             child: Column(children: <Widget>[
-              TextField(
-                decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.search)
-                ),
-                controller: urlController,
-                keyboardType: TextInputType.url,
-                onSubmitted: (value) {
-                  var url = Uri.parse(value);
-                  if (url.scheme.isEmpty) {
-                    url = Uri.parse("https://www.google.com/search?q=" + value);
-                  }
-                  webViewController?.loadUrl(
-                      urlRequest: URLRequest(url: url));
-                },
-              ),
+              // TextField(
+              //   decoration: InputDecoration(
+              //       prefixIcon: Icon(Icons.search)
+              //   ),
+              //   controller: urlController,
+              //   keyboardType: TextInputType.url,
+              //   onSubmitted: (value) {
+              //     var url = Uri.parse(value);
+              //     if (url.scheme.isEmpty) {
+              //       url = Uri.parse("https://www.google.com/search?q=" + value);
+              //     }
+              //     webViewController?.loadUrl(
+              //         urlRequest: URLRequest(url: url));
+              //   },
+              // ),
               Expanded(
                 child: Stack(
                   children: [
                     InAppWebView(
                       key: webViewKey,
                       initialUrlRequest:
-                      URLRequest(url: Uri.parse("https://inappwebview.dev/")),
+                      URLRequest(url: Uri.parse("https://www.google.com/")),
                       initialOptions: options,
                       pullToRefreshController: pullToRefreshController,
                       onWebViewCreated: (controller) {
                         webViewController = controller;
+
                       },
                       onLoadStart: (controller, url) {
                         setState(() {
@@ -163,29 +166,29 @@ class _MyAppState extends State<MyApp> {
                   ],
                 ),
               ),
-              ButtonBar(
-                alignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  ElevatedButton(
-                    child: Icon(Icons.arrow_back),
-                    onPressed: () {
-                      webViewController?.goBack();
-                    },
-                  ),
-                  ElevatedButton(
-                    child: Icon(Icons.arrow_forward),
-                    onPressed: () {
-                      webViewController?.goForward();
-                    },
-                  ),
-                  ElevatedButton(
-                    child: Icon(Icons.refresh),
-                    onPressed: () {
-                      webViewController?.reload();
-                    },
-                  ),
-                ],
-              ),
+              // ButtonBar(
+              //   alignment: MainAxisAlignment.center,
+              //   children: <Widget>[
+              //     ElevatedButton(
+              //       child: Icon(Icons.arrow_back),
+              //       onPressed: () {
+              //         webViewController?.goBack();
+              //       },
+              //     ),
+              //     ElevatedButton(
+              //       child: Icon(Icons.arrow_forward),
+              //       onPressed: () {
+              //         webViewController?.goForward();
+              //       },
+              //     ),
+              //     ElevatedButton(
+              //       child: Icon(Icons.refresh),
+              //       onPressed: () {
+              //         webViewController?.reload();
+              //       },
+              //     ),
+              //   ],
+              // ),
             ]))
     );
   }
