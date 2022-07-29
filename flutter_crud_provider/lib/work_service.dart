@@ -20,7 +20,7 @@ class WorkService extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// work 삭제
+  /// DELETE
   void deleteWork(int index) {
     workList.removeAt(index);
     notifyListeners();

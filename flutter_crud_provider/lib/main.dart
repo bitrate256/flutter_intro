@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
               : ListView.builder(
                   itemCount: workList.length, // workList 개수 만큼 보여주기
                   itemBuilder: (context, index) {
-                    Work work = workList[index]; // index에 해당하는 work 가져오기
+                    var work = workList[index]; // index에 해당하는 work 가져오기
                     return ListTile(
                       // 리스트
                       title: Text(
@@ -91,17 +91,11 @@ class _HomePageState extends State<HomePage> {
             child: Icon(Icons.add),
             onPressed: () async {
               // + 버튼 클릭시 버킷 생성 페이지로 이동, 추가 버튼 눌렀을 때 빈값이면 null이 반홤되므로 String은 ? 타입 사용
-              String? job = await Navigator.push(
+              Navigator.push(
                 // await : Navigator.push()로 화면을 띄우고 해당 화면이 종료될 때 까지 이 라인에서 기다리도록 만듬. 이후 화면이 종료되면 job 변수에 반환된 파라미터를 할당하고 다음 라인 진행됨
                 context,
                 MaterialPageRoute(builder: (_) => CreatePage()),
               );
-              if (job != null) {
-                setState(() {
-                  Work newWork = Work(job, false);
-                  workList.add(newWork); // 작업 리스트에 추가
-                });
-              }
             },
           ),
         );
@@ -154,6 +148,7 @@ class CreatePage extends StatefulWidget {
   State<CreatePage> createState() => _CreatePageState();
 }
 
+// CREATE 페이지
 class _CreatePageState extends State<CreatePage> {
   // TextField의 값을 가져올 때 사용
   TextEditingController textController = TextEditingController();
