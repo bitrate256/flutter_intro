@@ -43,7 +43,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Work> workList = []; // 전체 작업리스트 목록
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                         icon: Icon(CupertinoIcons.delete),
                         onPressed: () {
                           // 삭제 버튼 클릭시
-                          workService.deleteWork(index);
+                          showDeleteDialog(context, index);
                         },
                       ),
                       onTap: () {
@@ -129,7 +128,9 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {
                 setState(() {
                   // index에 해당하는 항목 삭제
-                  workList.removeAt(index);
+                  // WorkService 에서 DELETE 호출
+                  WorkService workService = context.read<WorkService>();
+                  workService.deleteWork(index);
                 });
                 Navigator.pop(context);
               },
