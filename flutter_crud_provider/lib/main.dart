@@ -47,62 +47,67 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("리스트"),
-      ),
-      body: workList.isEmpty
-          ? Center(child: Text("리스트가 없습니다"))
-          : ListView.builder(
-              itemCount: workList.length, // workList 개수 만큼 보여주기
-              itemBuilder: (context, index) {
-                Work work = workList[index]; // index에 해당하는 work 가져오기
-                return ListTile(
-                  // 버킷 리스트 할 일
-                  title: Text(
-                    work.job, // 해야할 작업은 work 의 job 속성에 들어 있음
-                    style: TextStyle(
-                      fontSize: 24,
-                      color: work.isDone ? Colors.grey : Colors.black,
-                      decoration: work.isDone
-                          ? TextDecoration.lineThrough // 텍스트에 취소선 넣기
-                          : TextDecoration.none,
-                    ),
-                  ),
-                  // 삭제 아이콘 버튼
-                  trailing: IconButton(
-                    icon: Icon(CupertinoIcons.delete),
-                    onPressed: () {
-                      // 삭제 버튼 클릭시
-                      showDeleteDialog(context, index);
-                    },
-                  ),
-                  onTap: () {
-                    // 아이템 클릭시
-                    setState(() {
-                      work.isDone = !work.isDone;
-                    });
+    return Consumer<WorkService>( // Consumer 위젯 : 위젯트리 꼭대기에 등록된 서비스에 접근할 수 있음, 해당 위젯에서 일부분만 rebuild, 등록된 모든 위젯의 builder 함수가 재호출 되면서 화면이 갱신됨
+      builder: (context, workService, child) { // builder : 화면에 보여줄 위젯을 반환하는 함수
+        List<Work> workList = workService.workList;
+        return Scaffold(
+          appBar: AppBar(
+            title: Text("리스트"),
+          ),
+          body: workList.isEmpty
+              ? Center(child: Text("리스트가 없습니다"))
+              : ListView.builder(
+                  itemCount: workList.length, // workList 개수 만큼 보여주기
+                  itemBuilder: (context, index) {
+                    Work work = workList[index]; // index에 해당하는 work 가져오기
+                    return ListTile(
+                      // 리스트
+                      title: Text(
+                        work.job, // 해야할 작업은 work 의 job 속성에 들어 있음
+                        style: TextStyle(
+                          fontSize: 24,
+                          color: work.isDone ? Colors.grey : Colors.black,
+                          decoration: work.isDone
+                              ? TextDecoration.lineThrough // 텍스트에 취소선 넣기
+                              : TextDecoration.none,
+                        ),
+                      ),
+                      // 삭제 아이콘 버튼
+                      trailing: IconButton(
+                        icon: Icon(CupertinoIcons.delete),
+                        onPressed: () {
+                          // 삭제 버튼 클릭시
+                          showDeleteDialog(context, index);
+                        },
+                      ),
+                      onTap: () {
+                        // 아이템 클릭시
+                        setState(() {
+                          work.isDone = !work.isDone;
+                        });
+                      },
+                    );
                   },
-                );
-              },
-            ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () async {
-          // + 버튼 클릭시 버킷 생성 페이지로 이동, 추가 버튼 눌렀을 때 빈값이면 null이 반홤되므로 String은 ? 타입 사용
-          String? job = await Navigator.push(
-            // await : Navigator.push()로 화면을 띄우고 해당 화면이 종료될 때 까지 이 라인에서 기다리도록 만듬. 이후 화면이 종료되면 job 변수에 반환된 파라미터를 할당하고 다음 라인 진행됨
-            context,
-            MaterialPageRoute(builder: (_) => CreatePage()),
-          );
-          if (job != null) {
-            setState(() {
-              Work newWork = Work(job, false);
-              workList.add(newWork); // 작업 리스트에 추가
-            });
-          }
-        },
-      ),
+                ),
+          floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: () async {
+              // + 버튼 클릭시 버킷 생성 페이지로 이동, 추가 버튼 눌렀을 때 빈값이면 null이 반홤되므로 String은 ? 타입 사용
+              String? job = await Navigator.push(
+                // await : Navigator.push()로 화면을 띄우고 해당 화면이 종료될 때 까지 이 라인에서 기다리도록 만듬. 이후 화면이 종료되면 job 변수에 반환된 파라미터를 할당하고 다음 라인 진행됨
+                context,
+                MaterialPageRoute(builder: (_) => CreatePage()),
+              );
+              if (job != null) {
+                setState(() {
+                  Work newWork = Work(job, false);
+                  workList.add(newWork); // 작업 리스트에 추가
+                });
+              }
+            },
+          ),
+        );
+      }, // User
     );
   }
 
