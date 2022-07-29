@@ -82,9 +82,8 @@ class _HomePageState extends State<HomePage> {
                       ),
                       onTap: () {
                         // 아이템 클릭시
-                        setState(() {
-                          work.isDone = !work.isDone;
-                        });
+                        work.isDone = !work.isDone;
+                        workService.updateWork(work, index);
                       },
                     );
                   },

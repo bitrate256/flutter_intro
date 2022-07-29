@@ -13,4 +13,10 @@ class WorkService extends ChangeNotifier {
     workList.add(Work(job, false));
     notifyListeners(); // 갱신 = Consumer<WorkService>의 builder 부분만 새로고침
   }
+
+  /// UPDATE
+  void updateWork(Work work, int index) {
+    workList[index] = work;
+    notifyListeners();
+  }
 }
