@@ -210,9 +210,12 @@ class _CreatePageState extends State<CreatePage> {
                     setState(() {
                       error = null; // 내용이 있는 경우 에러 메세지 숨기기
                     });
+                    // WorkService 에서 CREATE 호출
+                    WorkService workService = context.read<WorkService>();
+                    workService.createWork(job);
                     Navigator.pop(context, job); // job 변수를 반환하며 화면을 종료
                   }
-                  print(job);
+                  print("입력된 데이터 => $job");
                 },
               ),
             ),

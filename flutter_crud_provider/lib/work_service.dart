@@ -7,4 +7,10 @@ class WorkService extends ChangeNotifier {
   List<Work> workList = [
     Work('테스트데이터', false), // 더미 데이터
   ];
+
+  /// CREATE
+  void createWork(String job) {
+    workList.add(Work(job, false));
+    notifyListeners(); // 갱신 = Consumer<WorkService>의 builder 부분만 새로고침
+  }
 }
