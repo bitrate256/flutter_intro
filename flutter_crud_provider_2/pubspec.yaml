@@ -36,6 +36,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   provider: ^6.0.3
 
+  table_calendar: ^3.0.6 # 달력 위젯
+  intl: ^0.17.0 # DateTime 형식 지정
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
