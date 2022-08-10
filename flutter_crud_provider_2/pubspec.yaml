@@ -39,7 +39,8 @@ dependencies:
   table_calendar: ^3.0.6 # 달력 위젯
   intl: ^0.17.0 # DateTime 형식 지정
 
-dev_dependencies:
+  shared_preferences: ^2.0.15 # 데이터 저장 (앱 재시작해도 데이터 유지)
+장dev_dependencies:
   flutter_test:
     sdk: flutter
 
