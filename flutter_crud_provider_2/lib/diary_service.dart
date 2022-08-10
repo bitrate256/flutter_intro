@@ -46,11 +46,20 @@ class DiaryService extends ChangeNotifier {
 
   /// Diary 수정
   void update(DateTime createdAt, String newContent) {
-    // TODO
+    // createdAt 은 중복될 일이 없기 때문에 createdAt 을 고유 식별자로 사용
+    // createdAt 이 일치하는 diary 조회
+    Diary diary = diaryList.firstWhere((diary) => diary.createdAt == createdAt);
+
+    // text 수정
+    diary.text = newContent;
+    notifyListeners();
   }
 
   /// Diary 삭제
   void delete(DateTime createdAt) {
-    // TODO
+    // createdAt 은 중복될 일이 없기 때문에 createdAt 을 고유 식별자로 사용
+    // createdAt 이 일치하는 diary 삭제
+    diaryList.removeWhere((diary) => diary.createdAt == createdAt);
+    notifyListeners();
   }
 }
