@@ -37,7 +37,7 @@ class CatService extends ChangeNotifier {
 
   // 랜덤 고양이 사진 API 호출
   void getRandomCatImages() async {
-    var result = await Dio().get("https://api.thecatapi.com/v1/images/search?limit=1&mime_types=jpg");
+    var result = await Dio().get("https://api.thecatapi.com/v1/images/search?limit=10&mime_types=jpg");
     print(result.data);
     for (int i = 0; i < result.data.length; i++) {
       var map = result.data[i]; // 반복문을 돌며 i번째의 map에 접근
@@ -45,7 +45,7 @@ class CatService extends ChangeNotifier {
       print(map['url']); // url만 추출
       catImages.add(map['url']); // catImages에 이미지 추가
     }
-    
+
     notifyListeners(); // 새로고침
   }
 }
@@ -82,10 +82,12 @@ class HomePage extends StatelessWidget {
             padding: EdgeInsets.all(8),
             crossAxisCount: 2,
             children: List.generate(
-              10,
+              catService.catImages.length, // 보여주려는 항목 개수
                   (index) {
-                return Center(
-                  child: Text("$index", style: TextStyle(fontSize: 24)),
+                String catImage = catService.catImages[index];
+                return Image.network(
+                  catImage,
+                  fit: BoxFit.cover,
                 );
               },
             ),
