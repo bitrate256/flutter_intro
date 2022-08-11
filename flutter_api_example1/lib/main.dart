@@ -18,8 +18,17 @@ class MyApp extends StatelessWidget {
 }
 
 /// 홈 페이지
-class HomePage extends StatelessWidget {
+/// 퀴즈를 받아올 때 마다 화면 갱신 -> StateFulWidget 으로 변경
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+// 상태를 나타내는 _HomePageState 클래스가 추가
+class _HomePageState extends State<HomePage> {
+
+  String quiz = ""; // 보여줄 퀴즈
 
   Future<String> getNumberTrivia() async {
     // get 메소드로 URL 호출
@@ -42,7 +51,7 @@ class HomePage extends StatelessWidget {
             Expanded(
               child: Center(
                 child: Text(
-                  "퀴즈",
+                  quiz, // "퀴즈"를 위에서 응답을 담은 변수로 변경
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 28,
@@ -65,9 +74,13 @@ class HomePage extends StatelessWidget {
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.white),
                 ),
-                onPressed: () {
+                onPressed: () async {
                   // New Quiz 클릭시 퀴즈 가져오기
-                  getNumberTrivia();
+                  // getNumberTrivia();
+                  String trivia = await getNumberTrivia();
+                  setState(() {
+                    quiz = trivia;
+                  });
                 },
               ),
             ),
