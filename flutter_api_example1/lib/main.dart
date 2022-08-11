@@ -30,6 +30,25 @@ class _HomePageState extends State<HomePage> {
 
   String quiz = ""; // 보여줄 퀴즈
 
+  // initState : 위젯 생성시 호출
+  // dispose : 위젯 삭제시 호출
+  @override
+  void initState() {
+    super.initState();
+    print("시작");
+
+    // 퀴즈 가져오기
+    getQuiz();
+  }
+
+  // 퀴즈 가져오기
+  void getQuiz() async {
+    String trivia = await getNumberTrivia();
+    setState(() {
+      quiz = trivia;
+    });
+  }
+
   Future<String> getNumberTrivia() async {
     // get 메소드로 URL 호출
     Response result = await Dio().get('http://numbersapi.com/random/trivia');
@@ -77,10 +96,11 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () async {
                   // New Quiz 클릭시 퀴즈 가져오기
                   // getNumberTrivia();
-                  String trivia = await getNumberTrivia();
-                  setState(() {
-                    quiz = trivia;
-                  });
+                  // String trivia = await getNumberTrivia();
+                  // setState(() {
+                  //   quiz = trivia;
+                  // });
+                  getQuiz();
                 },
               ),
             ),
